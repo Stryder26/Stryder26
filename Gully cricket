@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gully Cricket</title>
+    <style>
+        /* CSS styles */
+    </style>
+</head>
+
+<body>
+    <h1>Gully Cricket Team Selection</h1>
+
+    <div class="container">
+        <h2>Enter Players' and Captains' Names</h2>
+        <label for="captainA">Captain A:</label>
+        <input type="text" id="captainA" placeholder="Captain A Name">
+        <label for="captainB">Captain B:</label>
+        <input type="text" id="captainB" placeholder="Captain B Name">
+        <div id="playerInputs">
+            <!-- Player inputs will be injected here -->
+        </div>
+        <button id="addPlayerButton">Add Player</button>
+        <button id="removePlayerButton">Remove Player</button>
+        <button id="startTossButton">Start Toss</button>
+    </div>
+
+    <!-- Other HTML elements -->
+
+    <script>
+        let players = [];
+        let teamA = [];
+        let teamB = [];
+        let currentTeam = 'A';
+        let captains = { A: '', B: '' };
+        let tossResult = '';
+
+        function addPlayerInputs() {
+            const playerInputsDiv = document.getElementById('playerInputs');
+            playerInputsDiv.innerHTML = '';
+            for (let i = 0; i < 10; i++) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.placeholder = `Player ${i + 1} Name`;
+                input.id = `player${i + 1}`;
+                playerInputsDiv.appendChild(input);
+                playerInputsDiv.appendChild(document.createElement('br'));
+            }
+        }
+
+        // Event listener for adding a player
+        document.getElementById('addPlayerButton').onclick = function () {
+            const playerInputsDiv = document.getElementById('playerInputs');
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.placeholder = `Player ${players.length + 1} Name`;
+            input.id = `player${players.length + 1}`;
+            playerInputsDiv.appendChild(input);
+            playerInputsDiv.appendChild(document.createElement('br'));
+        };
+
+        // Event listener for removing a player
+        document.getElementById('removePlayerButton').onclick = function () {
+            const playerInputsDiv = document.getElementById('playerInputs');
+            if (players.length > 0) {
+                playerInputsDiv.removeChild(playerInputsDiv.lastChild); // Remove input field
+                playerInputsDiv.removeChild(playerInputsDiv.lastChild); // Remove <br> element
+                players.pop(); // Remove player from the players array
+            }
+        };
+
+        document.getElementById('startTossButton').onclick = function () {
+            captains.A = document.getElementById('captainA').value;
+            captains.B = document.getElementById('captainB').value;
+            for (let i = 1; i <= 10; i++) {
+                const playerName = document.getElementById(`player${i}`).value;
+                if (playerName) {
+                    players.push({ name: playerName, skill: "Unknown" });
+                }
+            }
+            if (captains.A && captains.B && players.length === 10) {
+                document.getElementById('tossSection').classList.remove('hidden');
+                document.getElementById('startTossButton').classList.add('hidden');
+            } else {
+                alert('Please fill all fields.');
+            }
+        };
+
+        // Rest of the JavaScript code remains unchanged
+        // ...
+
+        // Call addPlayerInputs() to add player input fields on page load
+        addPlayerInputs();
+    </script>
+</body>
+
+</html>
